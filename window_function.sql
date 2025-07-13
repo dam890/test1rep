@@ -109,4 +109,21 @@ ORDER BY
     duration_category ASC,
     ratio DESC;
 
+--Задание 1. Вывести сумму, дату и день недели для каждой оплаты
+--(получится новая строковая колонка - “4.99 - 21.03.2006 - Пятница”).
+SELECT
+   TO_CHAR(p.amount, '0.00') || ' - ' ||
+   TO_CHAR(p.payment_date, 'DD.MM.YYYY') || ' - ' ||
+   CASE EXTRACT(ISODOW FROM payment_date)::int
+       WHEN 1 THEN 'Понедельник'
+       WHEN 2 THEN 'Вторник'
+       WHEN 3 THEN 'Среда'
+       WHEN 4 THEN 'Четверг'
+       WHEN 5 THEN 'Пятница'
+       WHEN 6 THEN 'Суббота'
+       WHEN 7 THEN 'Воскресенье'
+   END AS day_of_week
+FROM
+   payment p;
+
 
